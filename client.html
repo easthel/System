@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Client Management Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="client.css">
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <nav class="col-md-3 col-lg-2 d-md-block bg-light sidebar">
+                <div class="position-sticky">
+                    <div class="sidebar-header">
+                        <img src="logo.png" alt="Logo" class="logo">
+                    </div>
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#" data-section="dashboard">
+                                <i class="fas fa-tachometer-alt"></i> Dashboard
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" data-section="profile">
+                                <i class="fas fa-user"></i> My Profile
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" data-section="appointments">
+                                <i class="fas fa-calendar"></i> Appointments
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" data-section="history">
+                                <i class="fas fa-history"></i> History
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <!-- Main content -->
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                <!-- Dashboard Section -->
+                <div class="section-content" id="dashboard-section">
+                    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                        <h1 class="h2">Welcome</h1>
+                        <div>
+                            <button class="btn btn-avatar dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" title="User Menu">
+                                <i class="fas fa-user-circle"></i>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><a class="dropdown-item text-danger" href="index.html" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Quick Stats -->
+                    <div class="row mb-4">
+                        <div class="col-md-3">
+                            <div class="card stat-card">
+                                <div class="card-body">
+                                    <h6 class="card-subtitle mb-2 text-muted">Upcoming Appointments</h6>
+                                    <h2 class="card-title" data-stat="appointments">0</h2>
+                                    <p class="card-text"><small class="text-muted">Next: N/A</small></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Activity -->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="card-title mb-0">Recent Appointments</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="list-group recent-appointments">
+                                        <!-- Content will be populated by JavaScript -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Profile Section -->
+                <div class="section-content" id="profile-section">
+                    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                        <h1 class="h2">My Profile</h1>
+                    </div>
+                    <div class="row justify-content-center">
+                        <div class="col-md-8">
+                            <div class="card">
+                                <div class="card-header text-center">
+                                    <h5 class="card-title mb-0">Personal Information</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="profile-info text-center">
+                                        <p><strong>Name:</strong> <span id="profile-name"></span></p>
+                                        <p><strong>Email:</strong> <span id="profile-email"></span></p>
+                                        <p><strong>Phone:</strong> <span id="profile-phone"></span></p>
+                                        <p><strong>Address:</strong> <span id="profile-address"></span></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row justify-content-center mt-4">
+                        <div class="col-md-8">
+                            <div class="card">
+                                <div class="card-header d-flex justify-content-between align-items-center">
+                                    <h5 class="card-title mb-0">My Pets</h5>
+                                    <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#addPetModal">
+                                        <i class="fas fa-plus"></i> Add Pet
+                                    </button>
+                                </div>
+                                <div class="card-body">
+                                    <div class="pets-list">
+                                        <!-- Pets will be dynamically added here -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Appointments Section -->
+                <div class="section-content hidden" id="appointments-section">
+                    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                        <h1 class="h2">My Appointments</h1>
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#scheduleAppointmentModal">
+                            <i class="fas fa-plus"></i> Schedule New Appointment
+                        </button>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="card-title mb-0">Upcoming Appointments</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="list-group upcoming-appointments-list">
+                                        <!-- Content will be populated by JavaScript -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="card-title mb-0">Available Services</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="list-group">
+                                        <div class="list-group-item">
+                                            <h6 class="mb-1">Full & Basic Grooming</h6>
+                                            <p class="mb-1">Includes bath, brush, nail trim, and ear cleaning. <br>₱1,500</p>
+                                        </div>
+                                        <div class="list-group-item">
+                                            <h6 class="mb-1">Bath & Blowdry</h6>
+                                            <p class="mb-1">Complete bath with blowdry and coat conditioning. <br>₱800</p>
+                                        </div>
+                                        <div class="list-group-item">
+                                            <h6 class="mb-1">Haircut</h6>
+                                            <p class="mb-1">Professional haircut and styling for your pet. <br>₱1,200</p>
+                                        </div>
+                                        <div class="list-group-item">
+                                            <h6 class="mb-1">Nail Trim</h6>
+                                            <p class="mb-1">Safe and precise nail trimming service. <br>₱300</p>
+                                        </div>
+                                        <div class="list-group-item">
+                                            <h6 class="mb-1">Ear Cleaning</h6>
+                                            <p class="mb-1">Gentle ear cleaning to prevent infections. <br>₱400</p>
+                                        </div>
+                                        <div class="list-group-item">
+                                            <h6 class="mb-1">Teeth Brushing</h6>
+                                            <p class="mb-1">Thorough teeth cleaning for better oral health. <br>₱500</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- History Section -->
+                <div class="section-content hidden" id="history-section">
+                    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                        <h1 class="h2">Appointment History</h1>
+                    </div>
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>Time</th>
+                                            <th>Service</th>
+                                            <th>Pet</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="history-table-body">
+                                        <!-- Content will be populated by JavaScript -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Edit Profile Modal -->
+    <div class="modal fade" id="editProfileModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Profile</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" title="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="profileForm">
+                        <div class="mb-3">
+                            <label class="form-label">Full Name</label>
+                            <input type="text" class="form-control" name="fullName" value="John Doe" required placeholder="Enter your full name" title="Full Name">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Email</label>
+                            <input type="email" class="form-control" name="email" value="john.doe@email.com" required placeholder="Enter your email" title="Email">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Phone Number</label>
+                            <input type="tel" class="form-control" name="phone" value="(555) 123-4567" required placeholder="Enter your phone number" title="Phone Number">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Address</label>
+                            <textarea class="form-control" name="address" rows="2" placeholder="Enter your address" title="Address">123 Main St, City</textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="saveProfile">Save Changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Schedule Appointment Modal -->
+    <div class="modal fade" id="scheduleAppointmentModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Schedule New Appointment</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" title="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="appointmentForm">
+                        <div class="mb-3">
+                            <label class="form-label">Pet Name</label>
+                            <input type="text" class="form-control" name="petName" required title="Pet Name" placeholder="">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Pet Type</label>
+                            <select class="form-select" name="petType" required title="Pet Type">
+                                <option value=""></option>
+                                <option value="dog">Dog</option>
+                                <option value="cat">Cat</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Service Type</label>
+                            <select class="form-select" name="serviceType" required title="Service Type">
+                                <option value=""></option>
+                                <option value="Full & Basic Grooming">Full & Basic Grooming</option>
+                                <option value="Bath & Blowdry">Bath & Blowdry</option>
+                                <option value="Haircut">Haircut</option>
+                                <option value="Nail Trim">Nail Trim</option>
+                                <option value="Ear Cleaning">Ear Cleaning</option>
+                                <option value="Teeth Brushing">Teeth Brushing</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Staff</label>
+                            <select class="form-select" name="staff" required title="Staff">
+                                <option value=""></option>
+                                <option value="staff1">Staff 1</option>
+                                <option value="staff2">Staff 2</option>
+                                <option value="staff3">Staff 3</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Preferred Date</label>
+                            <input type="date" class="form-control" name="appointmentDate" required title="Preferred Date" placeholder=">
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Preferred Time</label>
+                            <input type="time" class="form-control" name="appointmentTime" required title="Preferred Time" placeholder="">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Special Requests</label>
+                            <textarea class="form-control" name="specialRequests" rows="2" title="Special Requests" placeholder="Enter any special requests"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="scheduleAppointment">Schedule</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Pet Modal -->
+    <div class="modal fade" id="addPetModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add New Pet</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" title="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="petForm">
+                        <div class="mb-3">
+                            <label class="form-label">Pet Name</label>
+                            <input type="text" class="form-control" name="petName" required title="Pet Name" placeholder="Enter your pet's name">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Species</label>
+                            <select class="form-select" name="petSpecies" required title="Pet Species">
+                                <option value="">Select species</option>
+                                <option value="dog">Dog</option>
+                                <option value="cat">Cat</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Breed</label>
+                            <input type="text" class="form-control" name="petBreed" required title="Pet Breed" placeholder="Enter your pet's breed">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="savePet">Add Pet</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Pet Modal -->
+    <div class="modal fade" id="editPetModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Pet Information</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" title="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editPetForm">
+                        <div class="mb-3">
+                            <label class="form-label">Pet Name</label>
+                            <input type="text" class="form-control" name="petName" value="Max" required title="Pet Name" placeholder="Enter your pet's name">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Species</label>
+                            <select class="form-select" name="petSpecies" required title="Pet Species">
+                                <option value="dog" selected>Dog</option>
+                                <option value="cat">Cat</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Breed</label>
+                            <input type="text" class="form-control" name="petBreed" value="Golden Retriever" required title="Pet Breed" placeholder="Enter your pet's breed">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="updatePet">Save Changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .status-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        .progress {
+            background-color: #e9ecef;
+        }
+        .btn-avatar {
+            background-color: #6c757d;
+            border-color: #6c757d;
+        }
+        .btn-avatar:hover {
+            background-color: #5a6268;
+            border-color: #545b62;
+        }
+    </style>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="client.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Handle Add Pet button click
+        const savePetButton = document.getElementById('savePet');
+        const petForm = document.getElementById('petForm');
+        const petsList = document.querySelector('.pets-list');
+
+        savePetButton.addEventListener('click', function () {
+            const formData = new FormData(petForm);
+            const petName = formData.get('petName');
+            const petSpecies = formData.get('petSpecies');
+            const petBreed = formData.get('petBreed');
+
+            if (!petName || !petSpecies || !petBreed) {
+                alert('Please fill in all required fields');
+                return;
+            }
+
+            // Create a new pet card
+            const petCard = document.createElement('div');
+            petCard.className = 'card mb-3';
+            petCard.innerHTML = `
+                <div class="card-body">
+                    <h5 class="card-title">${petName}</h5>
+                    <p class="card-text"><strong>Species:</strong> ${petSpecies}</p>
+                    <p class="card-text"><strong>Breed:</strong> ${petBreed}</p>
+                    <button class="btn btn-outline-danger btn-sm">Delete</button>
+                </div>
+            `;
+
+            // Add delete functionality to the new pet card
+            const deleteButton = petCard.querySelector('.btn-outline-danger');
+            deleteButton.addEventListener('click', function () {
+                if (confirm(`Are you sure you want to delete ${petName}?`)) {
+                    petCard.remove();
+                }
+            });
+
+            // Append the new pet card to the pets list
+            petsList.appendChild(petCard);
+
+            // Close modal and reset form
+            const modal = bootstrap.Modal.getInstance(document.getElementById('addPetModal'));
+            modal.hide();
+            petForm.reset();
+
+            // Show success message
+            alert('Pet added successfully!');
+        });
+    });
+
+
+        // Handle sidebar navigation
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get all navigation links
+            const navLinks = document.querySelectorAll('.nav-link');
+            
+            // Add click event listener to each link
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Remove active class from all links
+                    navLinks.forEach(l => l.classList.remove('active'));
+                    
+                    // Add active class to clicked link
+                    this.classList.add('active');
+                    
+                    // Get the target section
+                    const targetSection = this.getAttribute('data-section');
+                    
+                    // Hide all sections
+                    document.querySelectorAll('.section-content').forEach(section => {
+                        section.style.display = 'none';
+                    });
+                    
+                    // Show the target section
+                    document.getElementById(`${targetSection}-section`).style.display = 'block';
+                });
+            });
+
+            // Handle logout button click
+            const logoutBtn = document.getElementById('logoutBtn');
+            logoutBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                if (confirm('Are you sure you want to logout?')) {
+                    // Redirect to login page
+                    window.location.href = 'login.html';
+                }
+            });
+
+            // Handle pet deletion
+            const deleteButtons = document.querySelectorAll('.btn-outline-danger');
+            deleteButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const petCard = this.closest('.card');
+                    const petName = petCard.querySelector('h5').textContent;
+                    
+                    if (confirm(`Are you sure you want to delete ${petName}?`)) {
+                        petCard.remove();
+                    }
+                });
+            });
+
+            // Handle appointment scheduling
+            const scheduleButton = document.getElementById('scheduleAppointment');
+            const appointmentForm = document.getElementById('appointmentForm');
+            
+            scheduleButton.addEventListener('click', function() {
+                const formData = new FormData(appointmentForm);
+                const serviceType = formData.get('serviceType');
+                const appointmentDate = formData.get('appointmentDate');
+                const appointmentTime = formData.get('appointmentTime');
+                const specialRequests = formData.get('specialRequests');
+
+                if (!serviceType || !appointmentDate || !appointmentTime) {
+                    alert('Please fill in all required fields');
+                    return;
+                }
+
+                // Create new appointment card
+                const appointmentCard = document.createElement('div');
+                appointmentCard.className = 'list-group-item';
+                appointmentCard.innerHTML = `
+                    <div class="d-flex w-100 justify-content-between">
+                        <h6 class="mb-1">${serviceType}</h6>
+                        <small>${appointmentDate} at ${appointmentTime}</small>
+                    </div>
+                    <p class="mb-1">${specialRequests || 'No special requests'}</p>
+                    <small class="text-muted">Status: Pending</small>
+                `;
+
+                // Add to upcoming appointments list
+                const upcomingAppointments = document.querySelector('.upcoming-appointments-list');
+                upcomingAppointments.appendChild(appointmentCard);
+
+                // Update appointment count
+                const appointmentCount = document.querySelector('[data-stat="appointments"]');
+                const currentCount = parseInt(appointmentCount.textContent);
+                appointmentCount.textContent = currentCount + 1;
+
+                // Close modal and reset form
+                const modal = bootstrap.Modal.getInstance(document.getElementById('scheduleAppointmentModal'));
+                modal.hide();
+                appointmentForm.reset();
+
+                // Show success message
+                alert('Appointment scheduled successfully!');
+            });
+        });
+    </script>
+</body>
+</html>

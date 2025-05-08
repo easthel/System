@@ -1,0 +1,101 @@
+body {
+    font-family:  'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: whitesmoke;
+    margin: 0;
+    padding: 0;
+  }
+  .signup-container {
+    width: 300px;
+    margin: 30px auto;
+    padding: 30px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 128, 128, 0.803);
+  }
+  
+  .signup-container h2 {
+    font-size: 1.8rem;
+    text-align: center;
+    color: rgb(91, 90, 90);
+    font-weight: bold;
+    margin-bottom: 25px;
+  }
+  
+  .form-group {
+    margin-bottom: 20px;
+  }
+  .terms{
+    display:flex;
+    align-items: center;
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: rgb(43, 42, 42);
+    font-size: 14px;
+  }
+  
+  .form-group input[type="text"],
+  .form-group input[type="email"],
+  .form-group input[type="password"],
+  .form-group select {
+    width: calc(100% - 16px);
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 1rem;
+  }
+  
+  .form-group input[type="checkbox"] {
+    margin-right: 8px;
+  }
+  
+  .form-group label a {
+    color: #007bff;
+    text-decoration: none;
+  }
+  
+  .form-group label a:hover {
+    text-decoration: none;
+  }
+  
+  .button.primary {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    background-color: rgba(0, 128, 128, 0.889);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .button.primary:hover {
+    background-color: teal;
+  }
+  
+  .login-link {
+    text-align: center;
+    margin-top: 20px;
+    color: #777;
+    font-size: 0.9rem;
+  }
+  
+  .login-link a {
+    color: #007bff;
+    text-decoration: none;
+  }
+  
+  .login-link a:hover {
+    text-decoration: underline;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 600px) {
+    .signup-container {
+        margin: 20px;
+        padding: 20px;
+    }
+  }
